@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Donor Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<section class="container">
+  <div class="flex between">
+    <div><h1 style="margin:0">Donor Dashboard</h1><p class="muted" th:text="'Welcome, ' + ${user.fullName}"></p></div>
+    <a th:href="@{/donate}" class="btn btn-primary">+ New Donation</a>
+  </div>
+  <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+  <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+
+  <div class="grid grid-3" style="margin:22px 0">
+    <div class="card stat"><div class="num" th:text="${totalCount}">0</div><div class="label">Total Donations</div></div>
+    <div class="card stat"><div class="num" th:text="${servings}">0</div><div class="label">Meals Shared</div></div>
+    <div class="card stat"><div class="num" th:text="${deliveredCount}">0</div><div class="label">Delivered</div></div>
+  </div>
+
+  <h2>My Donations</h2>
+  <table>
+    <thead><tr><th>Food</th><th>Category</th><th>Servings</th><th>Location</th><th>Status</th><th>Claimed By</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="d : ${donations}">
+        <td th:text="${d.title}"></td>
+        <td th:text="${d.category}"></td>
+        <td th:text="${d.servings}"></td>
+        <td th:text="${d.area} + ', ' + ${d.city}"></td>
+        <td><span class="badge" th:classappend="'badge-' + ${#strings.toLowerCase(d.status)}" th:text="${d.status.label}"></span></td>
+        <td th:text="${d.claimedBy != null} ? ${d.claimedBy.fullName} : '—'"></td>
+        <td>
+          <form th:action="@{'/donor/donations/' + ${d.id} + '/delete'}" method="post">
+            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(donations)}"><td colspan="7" class="muted">No donations yet.</td></tr>
+    </tbody>
+  </table>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body></html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Home')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<header class="container hero">
+  <div>
+    <div class="tagline">SHARE FOOD. SPREAD HOPE. SHARE HAPPINESS.</div>
+    <h1>Turn surplus food into <span style="color:var(--primary-dark)">someone's meal</span></h1>
+    <p class="lead">Rizq connects restaurants, bakeries and households with verified NGOs across Dhaka, Chattogram and Sylhet — so good food reaches hungry people instead of a landfill.</p>
+    <div class="flex mt-2">
+      <a th:href="@{/donate}" class="btn btn-primary">Donate Food</a>
+      <a th:href="@{/browse}" class="btn btn-outline">Browse Donations</a>
+    </div>
+  </div>
+  <div class="hero-art">
+    <img class="card-img" src="/images/photo-1593113646773-028c64a8f1b8.jpg" alt="Volunteers sharing meals in Bangladesh"/>
+    <div class="grid grid-3">
+      <div class="stat"><div class="num" th:text="${totalDonations}">0</div><div class="label">Donations</div></div>
+      <div class="stat"><div class="num" th:text="${totalServings}">0</div><div class="label">Meals Shared</div></div>
+      <div class="stat"><div class="num" th:text="${totalNgos}">0</div><div class="label">NGO Partners</div></div>
+    </div>
+    <p class="muted center mt-2" style="margin-bottom:0">Live impact across Bangladesh</p>
+  </div>
+</header>
+
+<section class="container">
+  <h2 class="section-title">How It Works</h2>
+  <p class="section-sub">Three simple steps from surplus to smile.</p>
+  <div class="grid grid-3">
+    <div class="card"><h3>1. List Your Food</h3><p>Donors post surplus meals, bakery items or groceries with pickup time and location.</p></div>
+    <div class="card"><h3>2. NGO Claims It</h3><p>Verified NGOs nearby see the listing instantly and claim what they can distribute.</p></div>
+    <div class="card"><h3>3. Delivered With Care</h3><p>The NGO picks up, distributes, and marks the donation delivered — you see the impact.</p></div>
+  </div>
+</section>
+
+<section class="container">
+  <h2 class="section-title">Featured Donations</h2>
+  <p class="section-sub">Fresh listings available right now.</p>
+  <div class="grid grid-3">
+    <div class="card" th:each="d : ${featured}">
+      <img class="card-img" th:if="${d.imageUrl != null and !d.imageUrl.isEmpty()}" th:src="${d.imageUrl}" th:alt="${d.title}" loading="lazy"/>
+      <span class="badge" th:classappend="'badge-' + ${#strings.toLowerCase(d.status)}" th:text="${d.status.label}">Available</span>
+      <h3 th:text="${d.title}">Food</h3>
+      <p th:text="${d.description}">Description</p>
+      <p class="muted" th:text="${d.servings} + ' servings · ' + ${d.area} + ', ' + ${d.city}">details</p>
+      <a th:href="@{/browse}" class="btn btn-outline btn-sm">View</a>
+    </div>
+    <p class="muted" th:if="${#lists.isEmpty(featured)}">No donations listed yet.</p>
+  </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

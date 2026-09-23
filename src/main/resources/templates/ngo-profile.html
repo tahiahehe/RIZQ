@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('NGO Profile')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<section class="container" style="max-width:820px">
+  <div class="card">
+    <img class="card-img" th:if="${ngo.logoUrl != null and !ngo.logoUrl.isEmpty()}" th:src="${ngo.logoUrl}" th:alt="${ngo.name}"/>
+    <span class="badge badge-available" th:if="${ngo.verified}">Verified Partner</span>
+    <h1 th:text="${ngo.name}">NGO</h1>
+    <p th:text="${ngo.description}">About</p>
+    <table>
+      <tr><th>City</th><td th:text="${ngo.city}"></td></tr>
+      <tr><th>Focus area</th><td th:text="${ngo.focusArea}"></td></tr>
+      <tr><th>Phone</th><td th:text="${ngo.phone}"></td></tr>
+      <tr><th>Email</th><td th:text="${ngo.email}"></td></tr>
+      <tr><th>Meals distributed</th><td th:text="${ngo.mealsDistributed}"></td></tr>
+    </table>
+    <a th:href="@{/ngos}" class="btn btn-outline btn-sm mt-2">Back to NGOs</a>
+  </div>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body></html>

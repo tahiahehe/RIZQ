@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Admin Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<section class="container">
+  <div class="flex between">
+    <h1 style="margin:0">Admin Dashboard</h1>
+    <div class="flex">
+      <a th:href="@{/admin/users}" class="btn btn-outline btn-sm">Manage Users</a>
+      <a th:href="@{/admin/ngos}" class="btn btn-outline btn-sm">Manage NGOs</a>
+    </div>
+  </div>
+  <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+
+  <div class="grid grid-4" style="margin:22px 0">
+    <div class="card stat"><div class="num" th:text="${totalUsers}">0</div><div class="label">Users</div></div>
+    <div class="card stat"><div class="num" th:text="${totalDonations}">0</div><div class="label">Donations</div></div>
+    <div class="card stat"><div class="num" th:text="${totalServings}">0</div><div class="label">Meals</div></div>
+    <div class="card stat"><div class="num" th:text="${deliveredCount}">0</div><div class="label">Delivered</div></div>
+  </div>
+  <div class="grid grid-4" style="margin-bottom:22px">
+    <div class="card stat"><div class="num" th:text="${totalDonors}">0</div><div class="label">Donors</div></div>
+    <div class="card stat"><div class="num" th:text="${totalNgoUsers}">0</div><div class="label">NGO Accounts</div></div>
+    <div class="card stat"><div class="num" th:text="${availableCount}">0</div><div class="label">Available</div></div>
+    <div class="card stat"><div class="num" th:text="${claimedCount}">0</div><div class="label">Claimed</div></div>
+  </div>
+
+  <h2>All Donations</h2>
+  <table>
+    <thead><tr><th>Food</th><th>Donor</th><th>City</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="d : ${donations}">
+        <td th:text="${d.title}"></td>
+        <td th:text="${d.donor != null} ? ${d.donor.fullName} : '—'"></td>
+        <td th:text="${d.city}"></td>
+        <td><span class="badge" th:classappend="'badge-' + ${#strings.toLowerCase(d.status)}" th:text="${d.status.label}"></span></td>
+        <td>
+          <form th:action="@{'/admin/donations/' + ${d.id} + '/delete'}" method="post">
+            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body></html>

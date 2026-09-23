@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Browse Donations')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<section class="container">
+  <h1 class="section-title">Browse Donations</h1>
+  <p class="section-sub">Filter by food type, city and availability.</p>
+
+  <form class="form" method="get" th:action="@{/browse}">
+    <div class="form-row">
+      <div>
+        <label for="q">Search</label>
+        <input id="q" type="text" name="q" th:value="${q}" placeholder="e.g. biryani, bread"/>
+      </div>
+      <div>
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">All categories</option>
+          <option th:each="c : ${ {'Cooked Meal','Bakery','Groceries','Fruits','Packaged'} }"
+                  th:value="${c}" th:text="${c}" th:selected="${c == category}"></option>
+        </select>
+      </div>
+      <div>
+        <label for="city">City</label>
+        <select id="city" name="city">
+          <option value="">All cities</option>
+          <option th:each="c : ${ {'Dhaka','Chattogram','Sylhet','Khulna','Rajshahi'} }"
+                  th:value="${c}" th:text="${c}" th:selected="${c == city}"></option>
+        </select>
+      </div>
+      <div>
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="">Any status</option>
+          <option value="AVAILABLE" th:selected="${status != null and status.name() == 'AVAILABLE'}">Available</option>
+          <option value="CLAIMED" th:selected="${status != null and status.name() == 'CLAIMED'}">Claimed</option>
+          <option value="DELIVERED" th:selected="${status != null and status.name() == 'DELIVERED'}">Delivered</option>
+        </select>
+      </div>
+    </div>
+    <div class="mt-2 flex">
+      <button type="submit" class="btn btn-primary">Apply Filters</button>
+      <a th:href="@{/browse}" class="btn btn-outline">Reset</a>
+    </div>
+  </form>
+
+  <div class="grid grid-3 mt-2" style="margin-top:28px">
+    <div class="card" th:each="d : ${donations}">
+      <img class="card-img" th:if="${d.imageUrl != null and !d.imageUrl.isEmpty()}" th:src="${d.imageUrl}" th:alt="${d.title}" loading="lazy"/>
+      <span class="badge" th:classappend="'badge-' + ${#strings.toLowerCase(d.status)}" th:text="${d.status.label}">Available</span>
+      <h3 th:text="${d.title}">Title</h3>
+      <p th:text="${d.description}">Description</p>
+      <p class="muted">
+        <span th:text="${d.category}">Category</span> ·
+        <span th:text="${d.servings}">0</span> servings<br/>
+        <span th:text="${d.area} + ', ' + ${d.city}">Location</span><br/>
+        <span th:if="${d.donor != null}" th:text="'By ' + ${d.donor.fullName}">Donor</span>
+      </p>
+    </div>
+    <p class="muted" th:if="${#lists.isEmpty(donations)}">No donations match these filters.</p>
+  </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

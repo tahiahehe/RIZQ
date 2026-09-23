@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Access Denied')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<section class="container center" style="padding:80px 20px">
+  <h1>403 — Access Denied</h1>
+  <p class="muted">Your account role does not have permission to view this page.</p>
+  <a th:href="@{/}" class="btn btn-primary">Back to Home</a>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body></html>

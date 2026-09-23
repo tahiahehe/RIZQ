@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title th:text="${title} + ' | Rizq'">Rizq</title>
+  <meta name="description" content="Rizq - Share Food. Spread Hope. Share Happiness. A community food donation platform connecting donors with verified NGOs across Bangladesh."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<nav th:fragment="navbar" class="nav">
+  <div class="container nav-inner">
+    <a class="brand" th:href="@{/}"><span class="dot">R</span> Rizq</a>
+    <div class="nav-links">
+      <a th:href="@{/}">Home</a>
+      <a th:href="@{/browse}">Browse</a>
+      <a th:href="@{/ngos}">NGOs</a>
+      <a th:href="@{/about}">About</a>
+      <a th:href="@{/contact}">Contact</a>
+
+      <span sec:authorize="isAnonymous()" class="flex">
+        <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>
+        <a th:href="@{/register}" class="btn btn-primary btn-sm">Register</a>
+      </span>
+
+      <span sec:authorize="isAuthenticated()" class="flex">
+        <a sec:authorize="hasRole('DONOR')" th:href="@{/donate}" class="btn btn-outline btn-sm">Donate</a>
+        <a sec:authorize="hasRole('DONOR')" th:href="@{/donor/dashboard}" class="btn btn-primary btn-sm">Dashboard</a>
+        <a sec:authorize="hasRole('NGO')" th:href="@{/ngo/dashboard}" class="btn btn-primary btn-sm">NGO Dashboard</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}" class="btn btn-primary btn-sm">Admin</a>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+          <button type="submit" class="btn btn-outline btn-sm">Sign out</button>
+        </form>
+      </span>
+    </div>
+  </div>
+</nav>
+
+<footer th:fragment="footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <div class="brand" style="color:#fff"><span class="dot">R</span> Rizq</div>
+        <p style="color:#9FC4D6;max-width:340px">Share Food. Spread Hope. Share Happiness. Rescuing surplus food across Bangladesh and delivering it to those who need it most.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <p><a th:href="@{/browse}">Browse Donations</a></p>
+        <p><a th:href="@{/ngos}">Partner NGOs</a></p>
+        <p><a th:href="@{/about}">About Us</a></p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>Gulshan-1, Dhaka 1212</p>
+        <p>+880 1700-000000</p>
+        <p>hello@rizq.com.bd</p>
+      </div>
+    </div>
+    <div class="bottom">&copy; 2026 Rizq. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>

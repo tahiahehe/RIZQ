@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage Users')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<section class="container">
+  <h1>Manage Users</h1>
+  <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+  <table>
+    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr th:each="u : ${users}">
+        <td th:text="${u.fullName}"></td>
+        <td th:text="${u.email}"></td>
+        <td><span class="badge badge-role" th:text="${u.role}"></span></td>
+        <td th:text="${u.enabled} ? 'Active' : 'Suspended'"></td>
+        <td>
+          <div class="flex">
+            <form class="flex" th:action="@{'/admin/users/' + ${u.id} + '/role'}" method="post">
+              <select name="role" style="width:auto">
+                <option th:each="r : ${roles}" th:value="${r}" th:text="${r}" th:selected="${r == u.role}"></option>
+              </select>
+              <button class="btn btn-outline btn-sm" type="submit">Set Role</button>
+            </form>
+            <form th:action="@{'/admin/users/' + ${u.id} + '/enabled'}" method="post">
+              <input type="hidden" name="enabled" th:value="${!u.enabled}"/>
+              <button class="btn btn-danger btn-sm" type="submit" th:text="${u.enabled} ? 'Suspend' : 'Enable'"></button>
+            </form>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <a th:href="@{/admin/dashboard}" class="btn btn-outline btn-sm mt-2">Back</a>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body></html>

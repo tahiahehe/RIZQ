@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Donate Food')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<section class="container" style="max-width:820px">
+  <h1 class="section-title">Donate Food</h1>
+  <p class="section-sub">Tell us what you have — a nearby NGO will claim it.</p>
+
+  <form class="form" method="post" th:action="@{/donate}" th:object="${donation}">
+    <label for="title">Food title</label>
+    <input id="title" type="text" th:field="*{title}" placeholder="e.g. Kacchi Biryani (30 plates)"/>
+    <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+
+    <label for="description">Description</label>
+    <textarea id="description" rows="3" th:field="*{description}" placeholder="Freshness, packaging, any notes"></textarea>
+
+    <div class="form-row">
+      <div>
+        <label for="category">Category</label>
+        <select id="category" th:field="*{category}">
+          <option value="Cooked Meal">Cooked Meal</option>
+          <option value="Bakery">Bakery</option>
+          <option value="Groceries">Groceries</option>
+          <option value="Fruits">Fruits</option>
+          <option value="Packaged">Packaged</option>
+        </select>
+        <div class="error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+      </div>
+      <div>
+        <label for="servings">Number of servings</label>
+        <input id="servings" type="number" min="1" th:field="*{servings}"/>
+        <div class="error" th:if="${#fields.hasErrors('servings')}" th:errors="*{servings}"></div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="city">City</label>
+        <select id="city" th:field="*{city}">
+          <option value="Dhaka">Dhaka</option>
+          <option value="Chattogram">Chattogram</option>
+          <option value="Sylhet">Sylhet</option>
+          <option value="Khulna">Khulna</option>
+          <option value="Rajshahi">Rajshahi</option>
+        </select>
+        <div class="error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+      </div>
+      <div>
+        <label for="area">Area</label>
+        <input id="area" type="text" th:field="*{area}" placeholder="e.g. Gulshan, Dhanmondi"/>
+      </div>
+    </div>
+
+    <label for="pickupAddress">Pickup address</label>
+    <input id="pickupAddress" type="text" th:field="*{pickupAddress}"/>
+
+    <div class="form-row">
+      <div>
+        <label for="contactPhone">Contact phone</label>
+        <input id="contactPhone" type="text" th:field="*{contactPhone}" placeholder="+880 17XX-XXXXXX"/>
+      </div>
+      <div>
+        <label for="pickupBefore">Pick up before</label>
+        <input id="pickupBefore" type="datetime-local" th:field="*{pickupBefore}"/>
+      </div>
+    </div>
+
+    <label for="imageUrl">Photo URL (optional)</label>
+    <input id="imageUrl" type="url" th:field="*{imageUrl}" placeholder="https://..."/>
+
+    <button type="submit" class="btn btn-primary mt-2" style="width:100%">Post Donation</button>
+  </form>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

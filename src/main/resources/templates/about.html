@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('About')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<section class="container" style="max-width:860px">
+  <h1 class="section-title">About Rizq</h1>
+  <p class="section-sub">Share Food. Spread Hope. Share Happiness.</p>
+  <div class="card">
+    <p>Every day, restaurants, bakeries and households in Bangladesh throw away perfectly good food while millions go hungry. Rizq closes that gap with a simple bridge between people who have surplus and organisations that can distribute it.</p>
+    <p>We operate in Dhaka, Chattogram and Sylhet with verified partners including BRAC Humanitarian, Bidyanondo Foundation, JAAGO Foundation and As-Sunnah Foundation.</p>
+  </div>
+  <div class="grid grid-3 mt-2" style="margin-top:24px">
+    <div class="card"><h3>Our Mission</h3><p>Zero edible food wasted, zero person left hungry.</p></div>
+    <div class="card"><h3>Our Values</h3><p>Dignity, transparency and speed in every pickup.</p></div>
+    <div class="card"><h3>Our Impact</h3><p>Thousands of meals rescued and delivered every month.</p></div>
+  </div>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body></html>

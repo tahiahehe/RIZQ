@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Contact')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<section class="container" style="max-width:860px">
+  <h1 class="section-title">Contact Us</h1>
+  <p class="section-sub">Gulshan-1, Dhaka 1212 · +880 1700-000000 · hello@rizq.com.bd</p>
+  <form class="form">
+    <div class="form-row">
+      <div><label for="cname">Name</label><input id="cname" type="text"/></div>
+      <div><label for="cemail">Email</label><input id="cemail" type="email"/></div>
+    </div>
+    <label for="cmsg">Message</label>
+    <textarea id="cmsg" rows="5"></textarea>
+    <button type="submit" class="btn btn-primary mt-2">Send Message</button>
+  </form>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body></html>

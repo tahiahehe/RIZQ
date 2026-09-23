@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage NGOs')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<section class="container">
+  <h1>Manage NGOs</h1>
+  <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+
+  <form class="form" method="post" th:action="@{/admin/ngos}" th:object="${ngo}">
+    <div class="form-row">
+      <div><label for="name">Name</label><input id="name" type="text" th:field="*{name}"/></div>
+      <div><label for="ncity">City</label><input id="ncity" type="text" th:field="*{city}"/></div>
+    </div>
+    <div class="form-row">
+      <div><label for="focusArea">Focus area</label><input id="focusArea" type="text" th:field="*{focusArea}"/></div>
+      <div><label for="nphone">Phone</label><input id="nphone" type="text" th:field="*{phone}"/></div>
+    </div>
+    <label for="ndesc">Description</label>
+    <textarea id="ndesc" rows="3" th:field="*{description}"></textarea>
+    <button class="btn btn-primary mt-2" type="submit">Save NGO</button>
+  </form>
+
+  <table style="margin-top:26px">
+    <thead><tr><th>Name</th><th>City</th><th>Focus</th><th>Meals</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="n : ${ngos}">
+        <td th:text="${n.name}"></td>
+        <td th:text="${n.city}"></td>
+        <td th:text="${n.focusArea}"></td>
+        <td th:text="${n.mealsDistributed}"></td>
+        <td>
+          <form th:action="@{'/admin/ngos/' + ${n.id} + '/delete'}" method="post">
+            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <a th:href="@{/admin/dashboard}" class="btn btn-outline btn-sm mt-2">Back</a>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body></html>

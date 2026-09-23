@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('NGO Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<section class="container">
+  <h1 style="margin-bottom:0">NGO Dashboard</h1>
+  <p class="muted" th:text="'Welcome, ' + ${user.fullName}"></p>
+  <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+  <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+
+  <div class="grid grid-3" style="margin:22px 0">
+    <div class="card stat"><div class="num" th:text="${claimedCount}">0</div><div class="label">Claimed Donations</div></div>
+    <div class="card stat"><div class="num" th:text="${mealsReceived}">0</div><div class="label">Meals Received</div></div>
+    <div class="card stat"><div class="num" th:text="${#lists.size(available)}">0</div><div class="label">Available Nearby</div></div>
+  </div>
+
+  <h2>Available Donations</h2>
+  <table>
+    <thead><tr><th>Food</th><th>Servings</th><th>Pickup</th><th>Donor</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="d : ${available}">
+        <td th:text="${d.title}"></td>
+        <td th:text="${d.servings}"></td>
+        <td th:text="${d.pickupAddress} + ' (' + ${d.city} + ')'"></td>
+        <td th:text="${d.donor != null} ? ${d.donor.fullName} : '—'"></td>
+        <td>
+          <form th:action="@{'/ngo/donations/' + ${d.id} + '/claim'}" method="post">
+            <button class="btn btn-primary btn-sm" type="submit">Claim</button>
+          </form>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(available)}"><td colspan="5" class="muted">Nothing available right now.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:34px">My Pickups</h2>
+  <table>
+    <thead><tr><th>Food</th><th>Status</th><th>Update</th></tr></thead>
+    <tbody>
+      <tr th:each="d : ${claimed}">
+        <td th:text="${d.title}"></td>
+        <td><span class="badge" th:classappend="'badge-' + ${#strings.toLowerCase(d.status)}" th:text="${d.status.label}"></span></td>
+        <td>
+          <form class="flex" th:action="@{'/ngo/donations/' + ${d.id} + '/status'}" method="post">
+            <select name="status" style="width:auto">
+              <option value="CLAIMED">Claimed</option>
+              <option value="PICKED_UP">Picked Up</option>
+              <option value="DELIVERED">Delivered</option>
+            </select>
+            <button class="btn btn-outline btn-sm" type="submit">Update</button>
+          </form>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(claimed)}"><td colspan="3" class="muted">No claimed donations yet.</td></tr>
+    </tbody>
+  </table>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body></html>

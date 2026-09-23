@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Login')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container auth-wrap">
+  <div class="form">
+    <h1 class="center" style="margin-top:0">Welcome back</h1>
+    <p class="muted center">Sign in to continue sharing.</p>
+
+    <div class="alert alert-error" th:if="${param.error}">Invalid email or password.</div>
+    <div class="alert alert-success" th:if="${param.logout}">You have been signed out.</div>
+    <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+
+    <form th:action="@{/login}" method="post">
+      <label for="email">Email</label>
+      <input id="email" type="email" name="email" required autofocus/>
+
+      <label for="password">Password</label>
+      <input id="password" type="password" name="password" required/>
+
+      <button type="submit" class="btn btn-primary mt-2" style="width:100%">Sign In</button>
+    </form>
+
+    <p class="center mt-2 muted">No account? <a th:href="@{/register}" style="color:var(--primary-dark);font-weight:600">Register</a></p>
+
+    <div class="card mt-2" style="background:#F0F9FF">
+      <strong>Demo accounts</strong>
+      <p class="muted" style="margin:6px 0 0">
+        Donor: donor@rizq.com / donor123<br/>
+        NGO: ngo@rizq.com / ngo123<br/>
+        Admin: admin@rizq.com / admin123
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
