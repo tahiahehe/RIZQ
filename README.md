@@ -1,4 +1,4 @@
-# Rizq - BACKEND (Spring Boot, Java, MySQL)
+# Rizq - BACKEND 
 This is the server code: controllers, models, repositories, services, security, MySQL config.
 The HTML pages/CSS/images are in rizq-frontend.zip.
 
